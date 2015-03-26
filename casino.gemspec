@@ -31,6 +31,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'factory_girl', '~> 4.1'
   s.add_development_dependency 'webmock', '~> 1.9'
   s.add_development_dependency 'coveralls', '~> 0.7'
+  s.add_development_dependency 'database_cleaner', '>= 0.9.1'
+  s.add_development_dependency 'mongoid-rspec', '1.6.0'
 
   s.add_runtime_dependency 'rails', '~> 3.2.9'
   s.add_runtime_dependency 'http_accept_language', '~> 2.0.0.pre'

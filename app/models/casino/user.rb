@@ -1,7 +1,15 @@
 
-class CASino::User < ActiveRecord::Base
-  attr_accessible :authenticator, :username, :extra_attributes
-  serialize :extra_attributes, Hash
+class CASino::User
+	include Mongoid::Document
+  include Mongoid::Timestamps
+
+  store_in collection: "users"
+
+  field :authenticator, type: String
+  field :username, type: String
+  field :extra_attributes, type: Hash
+
+  #serialize :extra_attributes, Hash
 
   has_many :ticket_granting_tickets
   has_many :two_factor_authenticators

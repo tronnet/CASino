@@ -1,6 +1,12 @@
 
-class CASino::TwoFactorAuthenticator < ActiveRecord::Base
-  attr_accessible :secret
+class CASino::TwoFactorAuthenticator
+  include Mongoid::Document
+  include Mongoid::Timestamps
+
+  store_in collection: "two_factor_authenticators"
+
+  field :secret, type: String
+  field :active, type: Boolean, :default => false
 
   belongs_to :user
 

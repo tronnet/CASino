@@ -1,6 +1,16 @@
 
-class CASino::ServiceRule < ActiveRecord::Base
-  attr_accessible :enabled, :order, :name, :url, :regex
+class CASino::ServiceRule
+  include Mongoid::Document
+  include Mongoid::Timestamps
+
+  store_in collection: "service_rules"
+
+  field :enabled, type: Boolean, :default => true
+  field :order, type: Integer, :default => 10
+  field :regex, type: Boolean, :default => false
+  field :name, type: String
+  field :url, type: String
+
   validates :name, presence: true
   validates :url, uniqueness: true, presence: true
 

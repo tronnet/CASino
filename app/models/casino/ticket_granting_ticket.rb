@@ -1,7 +1,16 @@
 require 'user_agent'
 
-class CASino::TicketGrantingTicket < ActiveRecord::Base
-  attr_accessible :ticket, :user_agent, :awaiting_two_factor_authentication, :long_term
+class CASino::TicketGrantingTicket
+  include Mongoid::Document
+  include Mongoid::Timestamps
+
+  store_in collection: "ticket_granting_tickets"
+
+  field :ticket, type: String
+  field :user_agent, type: String
+  field :awaiting_two_factor_authentication, type: Boolean, :default => false
+  field :long_term, type: Boolean, :default => false
+
   validates :ticket, uniqueness: true
 
   belongs_to :user

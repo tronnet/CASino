@@ -1,7 +1,15 @@
 require 'addressable/uri'
 
-class CASino::ProxyTicket < ActiveRecord::Base
-  attr_accessible :ticket, :service
+class CASino::ProxyTicket
+  include Mongoid::Document
+  include Mongoid::Timestamps
+
+  store_in collection: "proxy_tickets"
+
+  field :ticket, type: String
+  field :service, type: String
+  field :consumed, type: Boolean, :default => false
+
   validates :ticket, uniqueness: true
   belongs_to :proxy_granting_ticket
   has_many :proxy_granting_tickets, as: :granter, dependent: :destroy

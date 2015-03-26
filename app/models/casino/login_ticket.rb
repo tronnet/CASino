@@ -1,5 +1,11 @@
-class CASino::LoginTicket < ActiveRecord::Base
-  attr_accessible :ticket
+class CASino::LoginTicket
+	include Mongoid::Document
+	include Mongoid::Timestamps
+
+	store_in collection: "login_tickets"
+
+	field :ticket, type: String
+
   validates :ticket, uniqueness: true
 
   def self.cleanup
