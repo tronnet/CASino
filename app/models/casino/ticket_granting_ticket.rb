@@ -22,8 +22,7 @@ class CASino::TicketGrantingTicket
     else
       base = user.ticket_granting_tickets
     end
-    tickets = Array.new
-    tickets += base.where({
+    tickets = base.where({
     		:created_at.lt => CASino.config.two_factor_authenticator[:timeout].seconds.ago,
     		:awaiting_two_factor_authentication => true
     	})
