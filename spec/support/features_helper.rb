@@ -6,10 +6,27 @@ module FeatureHelpers
     Capybara.session_name = original_browser
   end
 
+  def session
+    @session ||= ::Moped::Session.connect("mongodb://localhost:27017/casino_test")
+  end
+
+  def create_user(username, password, extra = {})
+    session[:users].insert({
+      username: username,
+      password: password
+    }.merge(extra))
+  end
+
   def sign_in(options = {})
+    create_user(
+      'testuser',
+      '$5$cegeasjoos$vPX5AwDqOTGocGjehr7k1IYp6Kt.U4FmMUa.1l6NrzD', # password: testpassword
+      mail_address: 'mail@example.org'
+    )
+
     visit login_path
     fill_in 'username', with: options[:username] || 'testuser'
-    fill_in 'password', with: options[:password] || 'foobar123'
+    fill_in 'password', with: options[:password] || 'testpassword'
     click_button 'Login'
   end
 

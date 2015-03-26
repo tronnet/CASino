@@ -11,13 +11,18 @@ defaults: &defaults
     sso_name: "CASino"
     footer_text: "Powered by <a href=\"http://rbcas.com/\">CASino</a>"
   authenticators:
-    static:
-      class: "CASino::StaticAuthenticator"
+    my_company_mongo:
+      authenticator: "Moped"
+      class: "CASino::MopedAuthenticator"
       options:
-        users:
-          testuser:
-            password: "foobar123"
-            name: "Test User"
+        database_url: "mongodb://localhost:27017/casino_test"
+        collection: "users"
+        username_column: "username"
+        password_column: "password"
+        pepper: "pepper" # optional
+        extra_attributes:
+          email: "email_database_column"
+          fullname: "displayname_database_column"
 
 development:
   <<: *defaults
