@@ -12,8 +12,8 @@ defaults: &defaults
     footer_text: "Powered by <a href=\"http://rbcas.com/\">CASino</a>"
   authenticators:
     my_company_mongo:
-      authenticator: "Moped"
-      class: "CASino::MopedAuthenticator"
+      authenticator: "Mongoid"
+      class: "CASino::MongoidAuthenticator"
       options:
         database_url: "mongodb://localhost:27017/casino_test"
         collection: "users"

@@ -1,3 +1,4 @@
+require 'mongoid'
 require 'casino'
 require 'casino/inflections'
 

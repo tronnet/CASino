@@ -1,24 +1,34 @@
 defaults: &defaults
+  login_ticket:
+    lifetime: 600
   service_ticket:
-    lifetime_unconsumed: 299
+    lifetime_unconsumed: 300
+    lifetime_consumed: 86400
+  proxy_ticket:
+    lifetime_unconsumed: 300
+    lifetime_consumed: 86400
+  frontend:
+    sso_name: "CASino"
+    footer_text: "Powered by <a href=\"http://rbcas.com/\">CASino</a>"
   authenticators:
-    static_1:
-      class: "CASino::StaticAuthenticator"
+    my_company_mongo:
+      authenticator: "Mongoid"
+      class: "CASino::MongoidAuthenticator"
       options:
-        users:
-          testuser:
-            password: "foobar123"
-            name: "Test User"
-    static_2:
-      class: "CASino::StaticAuthenticator"
-      options:
-        users:
-          example:
-            password: "dito123"
-            name: "Test User"
+        database_url: "mongodb://localhost:27017/casino_test"
+        collection: "users"
+        username_column: "username"
+        password_column: "password"
+        pepper: "pepper" # optional
+        extra_attributes:
+          email: "email_database_column"
+          fullname: "displayname_database_column"
 
 development:
   <<: *defaults
 
 test:
+  <<: *defaults
+
+production:
   <<: *defaults

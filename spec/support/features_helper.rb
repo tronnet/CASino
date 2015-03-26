@@ -6,12 +6,8 @@ module FeatureHelpers
     Capybara.session_name = original_browser
   end
 
-  def session
-    @session ||= ::Moped::Session.connect("mongodb://localhost:27017/casino_test")
-  end
-
   def create_user(username, password, extra = {})
-    session[:users].insert({
+    CASino::User.create({
       username: username,
       password: password
     }.merge(extra))
