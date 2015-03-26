@@ -22,16 +22,26 @@ class CASino::TicketGrantingTicket
     else
       base = user.ticket_granting_tickets
     end
-    tgts = base.where([
-      '(created_at < ? AND awaiting_two_factor_authentication = ?) OR (created_at < ? AND long_term = ?) OR created_at < ?',
-      CASino.config.two_factor_authenticator[:timeout].seconds.ago,
-      true,
-      CASino.config.ticket_granting_ticket[:lifetime].seconds.ago,
-      false,
-      CASino.config.ticket_granting_ticket[:lifetime_long_term].seconds.ago
-    ])
-    CASino::ServiceTicket.where(ticket_granting_ticket_id: tgts).destroy_all
-    tgts.destroy_all
+    tickets = Array.new
+    tickets += base.where({
+    		:created_at.lt => CASino.config.two_factor_authenticator[:timeout].seconds.ago,
+    		:awaiting_two_factor_authentication => true
+    	})
+
+    tickets += base.where({
+    		:created_at.lt => CASino.config.two_factor_authenticator[:timeout].seconds.ago,
+    		:long_term => false
+    	})
+
+    tickets += base.where({
+    		:created_at.lt =>CASino.config.ticket_granting_ticket[:lifetime_long_term].seconds.ago
+    	})
+
+    CASino::ServiceTicket.where(ticket_granting_ticket: tickets).destroy_all
+    _ids = tickets.collect do |ticket|
+    	tickets._id
+    end
+    base.where(_id: _ids).destroy_all
   end
 
   def browser_info

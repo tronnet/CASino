@@ -7,7 +7,7 @@ class CASino::ServiceTicket
   store_in collection: "service_tickets"
 
   field :ticket, type: String
-  field :servuce, type: String
+  field :service, type: String
   field :consumed, type: Boolean, :default => false
   field :issued_from_credentials, type: Boolean, :default => false
 
@@ -17,15 +17,28 @@ class CASino::ServiceTicket
   has_many :proxy_granting_tickets, as: :granter, dependent: :destroy
 
   def self.cleanup_unconsumed
-    self.delete_all(['created_at < ? AND consumed = ?', CASino.config.service_ticket[:lifetime_unconsumed].seconds.ago, false])
+  	self.where({
+  			:created_at.lt => CASino.config.service_ticket[:lifetime_unconsumed].seconds.ago,
+  			:consumed => false
+  		}).destroy_all
   end
 
   def self.cleanup_consumed
-    self.destroy_all(['(ticket_granting_ticket_id IS NULL OR created_at < ?) AND consumed = ?', CASino.config.service_ticket[:lifetime_consumed].seconds.ago, true])
+  	self.where({
+  			:created_at.lt => CASino.config.service_ticket[:lifetime_consumed].seconds.ago,
+  			:consumed => true
+  		}).destroy_all
+
+  	self.where({
+  			:ticket_granting_ticket_id.exists => false
+  		}).destroy_all
   end
 
   def self.cleanup_consumed_hard
-    self.delete_all(['created_at < ? AND consumed = ?', (CASino.config.service_ticket[:lifetime_consumed] * 2).seconds.ago, true])
+  	elf.where({
+  			:created_at.lt => (CASino.config.service_ticket[:lifetime_consumed] * 2).seconds.ago,
+  			:consumed => true
+  		}).destroy_all
   end
 
 

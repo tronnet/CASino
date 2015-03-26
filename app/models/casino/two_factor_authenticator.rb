@@ -11,7 +11,10 @@ class CASino::TwoFactorAuthenticator
   belongs_to :user
 
   def self.cleanup
-    self.delete_all(['(created_at < ?) AND active = ?', self.lifetime.ago, false])
+  	self.where({
+  			created_at: self.lifetime.ago,
+  			active: false
+  		}).destroy_all
   end
 
   def self.lifetime

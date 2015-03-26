@@ -14,7 +14,7 @@ class CASino::SessionOverviewProcessor < CASino::Processor
     if tgt.nil?
       @listener.user_not_logged_in
     else
-      ticket_granting_tickets = tgt.user.ticket_granting_tickets.where(awaiting_two_factor_authentication: false).order('updated_at DESC')
+      ticket_granting_tickets = tgt.user.ticket_granting_tickets.where(awaiting_two_factor_authentication: false).desc('updated_at')
       @listener.ticket_granting_tickets_found(ticket_granting_tickets)
     end
   end
