@@ -1,9 +1,11 @@
+require 'casino/authenticator'
+
 require 'mongoid'
 require 'unix_crypt'
 require 'bcrypt'
 require 'phpass'
 
-class CASino::MongoidAuthenticator
+class CASino::MongoidAuthenticator  < CASino::Authenticator
 
   # @param [Hash] options
   def initialize(options)

@@ -15,7 +15,7 @@ class CASino::LoginCredentialAcceptorListener < CASino::Listener
     @controller.render 'validate_otp'
   end
 
-  def invalid_login_credentials(login_ticket)
+  def invalid_login_credentials(login_ticket = nil)
     @controller.flash.now[:error] = I18n.t('login_credential_acceptor.invalid_login_credentials')
     rerender_login_page(login_ticket)
   end

@@ -35,13 +35,13 @@ class CASino::TicketValidationResponseBuilder
 
   private
   def serialize_extra_attribute(builder, key, value)
-    if value.kind_of?(String) || value.kind_of?(Numeric) || value.kind_of?(Symbol)
+    #if value.kind_of?(String) || value.kind_of?(Numeric) || value.kind_of?(Symbol)
       builder.cas key, "#{value}"
-    else
-      builder.cas key do |container|
-        container.cdata! value.to_yaml
-      end
-    end
+    #else
+     # builder.cas key do |container|
+      #  container.cdata! value.to_yaml
+      #end
+    #end
   end
 
   def build_success_xml(service_response, ticket, service_ticket, ticket_granting_ticket, proxies)

@@ -33,10 +33,10 @@ class CASino::LoginCredentialAcceptorProcessor < CASino::Processor
   private
   def authenticate_user
     authentication_result = validate_login_credentials(@params[:username], @params[:password])
-    if !authentication_result.nil?
-      user_logged_in(authentication_result)
-    else
+    if authentication_result.nil?
       @listener.invalid_login_credentials(acquire_login_ticket)
+    else
+			user_logged_in(authentication_result)
     end
   end
 

@@ -6,10 +6,12 @@ class CASino::ProxyGrantingTicket
 
 	field :ticket, type: String
 	field :iou, type: String
+	field :pgt_url, type: String
+	field :granter_type, type: String
 
   validates :ticket, uniqueness: true
   validates :iou, uniqueness: true
   
   belongs_to :granter, polymorphic: true
-  has_many :proxy_tickets, dependent: :destroy
+  has_and_belongs_to_many :proxy_tickets, dependent: :destroy
 end

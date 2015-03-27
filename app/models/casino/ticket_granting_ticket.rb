@@ -38,7 +38,7 @@ class CASino::TicketGrantingTicket
 
     CASino::ServiceTicket.where(ticket_granting_ticket: tickets).destroy_all
     _ids = tickets.collect do |ticket|
-    	tickets._id
+    	ticket._id
     end
     base.where(_id: _ids).destroy_all
   end

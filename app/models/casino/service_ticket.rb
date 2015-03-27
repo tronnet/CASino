@@ -35,12 +35,15 @@ class CASino::ServiceTicket
   end
 
   def self.cleanup_consumed_hard
-  	elf.where({
+  	self.where({
   			:created_at.lt => (CASino.config.service_ticket[:lifetime_consumed] * 2).seconds.ago,
   			:consumed => true
   		}).destroy_all
   end
 
+  def self.find_by_ticket(ticket)
+  	self.where(ticket: ticket).first
+  end
 
   def service=(service)
     normalized_encoded_service = Addressable::URI.parse(service).normalize.to_str

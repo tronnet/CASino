@@ -85,7 +85,7 @@ describe CASino::TwoFactorAuthenticatorActivatorProcessor do
               processor.process(params, cookies, user_agent)
               lambda do
                 other_two_factor_authenticator.reload
-              end.should raise_error(ActiveRecord::RecordNotFound)
+              end.should raise_error(Mongoid::Errors::DocumentNotFound)
             end
           end
 
