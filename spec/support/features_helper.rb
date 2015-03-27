@@ -9,8 +9,9 @@ module FeatureHelpers
   def create_user(username, password, extra = {})
     CASino::User.create({
       username: username,
-      password: password
-    }.merge(extra))
+      password: password,
+      extra_attributes: extra
+    })
   end
 
   def sign_in(options = {})

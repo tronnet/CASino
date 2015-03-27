@@ -15,7 +15,7 @@ class CASino::ServiceRule
   validates :url, uniqueness: true, presence: true
 
   def self.allowed?(service_url)
-    rules = self.where(enabled: true)
+    rules = self.where(enabled: true).to_a
     if rules.empty?
       true
     else

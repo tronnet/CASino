@@ -13,5 +13,9 @@ class CASino::ProxyGrantingTicket
   validates :iou, uniqueness: true
   
   belongs_to :granter, polymorphic: true
-  has_and_belongs_to_many :proxy_tickets, dependent: :destroy
+  has_many :proxy_tickets, dependent: :destroy
+
+  def compact
+  	self.proxy_tickets.compact
+  end
 end

@@ -34,7 +34,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'database_cleaner', '>= 0.9.1'
   s.add_development_dependency 'mongoid-rspec', '1.6.0'
 
-  s.add_runtime_dependency 'rails', '~> 3.2.9'
+  s.add_runtime_dependency 'rails', '3.2.21'
+  s.add_runtime_dependency 'sass-rails', '~> 3.2.3'
   s.add_runtime_dependency 'http_accept_language', '~> 2.0.0.pre'
   s.add_runtime_dependency 'addressable', '~> 2.3'
   s.add_runtime_dependency 'terminal-table', '~> 1.4'

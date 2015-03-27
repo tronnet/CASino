@@ -11,14 +11,21 @@ class CASino::ProxyTicket
   field :consumed, type: Boolean, :default => false
 
   validates :ticket, uniqueness: true
-  has_and_belongs_to_many :proxy_granting_tickets, dependent: :destroy
+  belongs_to :proxy_granting_ticket
+  has_many :proxy_granting_ticket, as: :granter, dependent: :destroy
 
   def self.cleanup_unconsumed
-    self.destroy_all(['created_at < ? AND consumed = ?', CASino.config.proxy_ticket[:lifetime_unconsumed].seconds.ago, false])
+    self.where({
+        created_at: CASino.config.proxy_ticket[:lifetime_unconsumed].seconds.ago,
+        consumed: false
+      }).destroy_all
   end
 
   def self.cleanup_consumed
-    self.destroy_all(['created_at < ? AND consumed = ?', CASino.config.proxy_ticket[:lifetime_consumed].seconds.ago, true])
+    self.where({
+        created_at: CASino.config.proxy_ticket[:lifetime_consumed].seconds.ago,
+        consumed: true
+      }).destroy_all
   end
 
   def expired?

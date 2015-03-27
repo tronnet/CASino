@@ -1,3 +1,4 @@
+require 'casino/ticket_granting_ticket'
 
 class CASino::User
 	include Mongoid::Document

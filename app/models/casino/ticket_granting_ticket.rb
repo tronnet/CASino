@@ -1,4 +1,5 @@
 require 'user_agent'
+require 'casino/user'
 
 class CASino::TicketGrantingTicket
   include Mongoid::Document
