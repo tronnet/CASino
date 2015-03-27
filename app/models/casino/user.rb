@@ -12,8 +12,8 @@ class CASino::User
 
   #serialize :extra_attributes, Hash
 
-  has_many :ticket_granting_tickets
-  has_many :two_factor_authenticators
+  has_many :ticket_granting_tickets, :class_name => "CASino::TicketGrantingTicket"
+  has_many :two_factor_authenticators, :class_name => "CASino::TwoFactorAuthenticator"
 
   def active_two_factor_authenticator
     self.two_factor_authenticators.where(active: true).first

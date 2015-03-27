@@ -14,8 +14,8 @@ class CASino::TicketGrantingTicket
 
   validates :ticket, uniqueness: true
 
-  belongs_to :user
-  has_many :service_tickets, dependent: :destroy
+  belongs_to :user, :class_name => "CASino::User", :foreign_key=>"user_id"
+  has_many :service_tickets, :class_name => "CASino::ServiceTicket", dependent: :destroy
 
   def self.cleanup(user = nil)
     if user.nil?

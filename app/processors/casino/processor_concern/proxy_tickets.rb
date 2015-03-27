@@ -9,7 +9,7 @@ module CASino
       def acquire_proxy_ticket(proxy_granting_ticket, service)
         proxy_granting_ticket.proxy_tickets.create!({
           ticket: random_ticket_string('PT'),
-          service: service,
+          service: service
         })
       end
 

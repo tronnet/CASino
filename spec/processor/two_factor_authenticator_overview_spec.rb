@@ -3,7 +3,11 @@ require 'spec_helper'
 describe CASino::TwoFactorAuthenticatorOverviewProcessor do
   describe '#process' do
     let(:listener) { Object.new }
-    let(:processor) { described_class.new(listener) }
+    let(:processor) { 
+      puts listener
+      puts described_class.class
+      described_class.new(listener) 
+    }
     let(:cookies) { { tgt: tgt } }
 
     before(:each) do

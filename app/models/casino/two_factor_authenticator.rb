@@ -8,7 +8,7 @@ class CASino::TwoFactorAuthenticator
   field :secret, type: String
   field :active, type: Boolean, :default => false
 
-  belongs_to :user
+  belongs_to :user, :class_name => "CASino::User", :foreign_key=>"user_id"
 
   def self.cleanup
   	self.where({
