@@ -15,17 +15,21 @@ class CASino::ProxyTicket
 
   validates :ticket, uniqueness: true
 
+  def self.find_by_ticket(ticket)
+    self.where(ticket: ticket).first
+  end
+
   def self.cleanup_unconsumed
     self.where({
-        created_at: CASino.config.proxy_ticket[:lifetime_unconsumed].seconds.ago,
-        consumed: false
+        :created_at.lt => CASino.config.proxy_ticket[:lifetime_unconsumed].seconds.ago,
+        :consumed => false
       }).destroy_all
   end
 
   def self.cleanup_consumed
     self.where({
-        created_at: CASino.config.proxy_ticket[:lifetime_consumed].seconds.ago,
-        consumed: true
+        :created_at.lt => CASino.config.proxy_ticket[:lifetime_consumed].seconds.ago,
+        :consumed => true
       }).destroy_all
   end
 

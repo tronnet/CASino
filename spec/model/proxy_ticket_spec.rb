@@ -43,6 +43,7 @@ describe CASino::ProxyTicket do
     it 'deletes expired unconsumed service tickets' do
       unconsumed_ticket.created_at = 10.hours.ago
       unconsumed_ticket.save!
+
       lambda do
         described_class.cleanup_unconsumed
       end.should change(described_class, :count).by(-1)
