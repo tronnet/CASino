@@ -26,7 +26,7 @@ describe CASino::ProcessorConcern::ServiceTickets do
 
       it 'deletes the old service ticket' do
         subject.acquire_service_ticket(ticket_granting_ticket, service)
-        expect { service_ticket.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { service_ticket.reload }.to raise_error(Mongoid::Errors::DocumentNotFound)
       end
     end
 

@@ -11,10 +11,10 @@ class CASino::TwoFactorAuthenticator
   belongs_to :user, :class_name => "CASino::User", :foreign_key=>"user_id"
 
   def self.cleanup
-  	self.where({
-  			created_at: self.lifetime.ago,
-  			active: false
-  		}).destroy_all
+  	self.destroy_all({
+  			:created_at.lt => self.lifetime.ago,
+  			:active => false
+  		})
   end
 
   def self.lifetime

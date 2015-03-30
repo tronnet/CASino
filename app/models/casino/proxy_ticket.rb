@@ -20,17 +20,21 @@ class CASino::ProxyTicket
   end
 
   def self.cleanup_unconsumed
-    self.where({
+    self.destroy_all({
         :created_at.lt => CASino.config.proxy_ticket[:lifetime_unconsumed].seconds.ago,
         :consumed => false
-      }).destroy_all
+      })
   end
 
   def self.cleanup_consumed
-    self.where({
+    self.destroy_all({
         :created_at.lt => CASino.config.proxy_ticket[:lifetime_consumed].seconds.ago,
         :consumed => true
-      }).destroy_all
+      })
+  end
+
+  def compact
+    self.proxy_granting_tickets.compact
   end
 
   def expired?

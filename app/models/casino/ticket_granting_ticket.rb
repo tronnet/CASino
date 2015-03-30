@@ -17,31 +17,35 @@ class CASino::TicketGrantingTicket
   belongs_to :user, :class_name => "CASino::User", :foreign_key=>"user_id"
   has_many :service_tickets, :class_name => "CASino::ServiceTicket", dependent: :destroy
 
+  def self.find_by_ticket(ticket)
+    self.where(ticket: ticket).first
+  end
+
   def self.cleanup(user = nil)
-    if user.nil?
-      base = self
-    else
-      base = user.ticket_granting_tickets
-    end
-    tickets = base.where({
-    		:created_at.lt => CASino.config.two_factor_authenticator[:timeout].seconds.ago,
-    		:awaiting_two_factor_authentication => true
-    	})
+    query = {
+        :created_at.lt => CASino.config.two_factor_authenticator[:timeout].seconds.ago,
+        :awaiting_two_factor_authentication => true
+      }
+    query[:user] = user unless user.nil?
+    tickets = self.where(query)
 
-    tickets += base.where({
-    		:created_at.lt => CASino.config.two_factor_authenticator[:timeout].seconds.ago,
-    		:long_term => false
-    	})
+    query = {
+        :created_at.lt => CASino.config.two_factor_authenticator[:timeout].seconds.ago,
+        :long_term => false
+      }
+    query[:user] = user unless user.nil?
+    tickets += self.where(query)
 
-    tickets += base.where({
-    		:created_at.lt =>CASino.config.ticket_granting_ticket[:lifetime_long_term].seconds.ago
-    	})
+    query = {:created_at.lt =>CASino.config.ticket_granting_ticket[:lifetime_long_term].seconds.ago}
+    query[:user] = user unless user.nil?
+    tickets += self.where(query)
 
-    CASino::ServiceTicket.where(ticket_granting_ticket: tickets).destroy_all
+    CASino::ServiceTicket.where(:ticket_granting_ticket.in => tickets).destroy_all
     _ids = tickets.collect do |ticket|
     	ticket._id
     end
-    base.where(_id: _ids).destroy_all
+
+    self.where(:_id.in => _ids).destroy_all
   end
 
   def browser_info

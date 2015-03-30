@@ -32,6 +32,10 @@ class CASino::ServiceTicket
   	self.where({
   			:ticket_granting_ticket_id.exists => false
   		}).destroy_all
+
+    self.where({
+        :ticket_granting_ticket_id => nil
+      }).destroy_all
   end
 
   def self.cleanup_consumed_hard

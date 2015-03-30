@@ -9,9 +9,9 @@ class CASino::LoginTicket
   validates :ticket, uniqueness: true
 
   def self.cleanup
-  	self.where({
+  	self.destroy_all({
   			:created_at.lt => CASino.config.login_ticket[:lifetime].seconds.ago
-  		}).destroy_all
+  		})
   end
 
   def self.find_by_ticket(ticket)
