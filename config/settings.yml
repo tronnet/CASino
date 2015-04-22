@@ -1,0 +1,9 @@
+app:
+  name: Tgcbox
+  host: tgcbox.com.br
+  relative_url_root: /login
+
+secret_token: 'shuffle'# set in settings.local.yml
+
+cas:
+  url: "https://localhost:3000/cas"

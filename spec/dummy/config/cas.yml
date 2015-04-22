@@ -11,11 +11,11 @@ defaults: &defaults
     sso_name: "CASino"
     footer_text: "Powered by <a href=\"http://rbcas.com/\">CASino</a>"
   authenticators:
-    my_company_mongo:
+    portal_tron:
       authenticator: "Mongoid"
       class: "CASino::MongoidAuthenticator"
       options:
-        database_url: "mongodb://localhost:27017/casino_test"
+        database_url: "mongodb://localhost:27017/portal_tron"
         collection: "users"
         username_column: "username"
         password_column: "password"
