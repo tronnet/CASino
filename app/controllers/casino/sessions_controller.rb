@@ -24,6 +24,7 @@ class CASino::SessionsController < CASino::ApplicationController
 
   def logout
     processor(:Logout).process(params, cookies, request.user_agent)
+    redirect_to login_path
   end
 
   def validate_otp
